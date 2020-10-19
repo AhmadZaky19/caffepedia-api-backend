@@ -2,11 +2,12 @@ const db = require("../Configs/dbMySql");
 
 // ALL
 const productsModel = {
-  getAllProducts: () => {
+  getAllProducts: (page, limit) => {
     return new Promise((resolve, reject) => {
+      const offset = (page - 1) * limit;
       const queryString =
-        "SELECT product.id_product, product.name_product, category.name_category, product.price_product, product.img_product, product.created_at FROM product JOIN category ON product.id_category = category.id_category";
-      db.query(queryString, (err, data) => {
+        "SELECT product.id_product, product.name_product, category.name_category, product.price_product, product.img_product, product.created_at FROM product JOIN category ON product.id_category = category.id_category LIMIT ? OFFSET ?";
+      db.query(queryString, [Number(limit), offset], (err, data) => {
         if (!err) {
           resolve(data);
         } else {
@@ -16,7 +17,7 @@ const productsModel = {
     });
   },
   // SORT PRODUCT BY
-  sortProductBy: (query) => {
+  sortProduct: (query) => {
     const sortBy = query.by;
     const sortOrder = query.order;
     return new Promise((resolve, reject) => {
@@ -25,7 +26,7 @@ const productsModel = {
         if (!err) {
           resolve(data);
         } else {
-          reject(err);
+          reject({ msg: "Cannot Recognize Sort Request" });
         }
       });
     });
@@ -44,12 +45,12 @@ const productsModel = {
     });
   },
   // UPDATE
-  updateProduct: (body) => {
-    const { id_product } = body;
+  updateProduct: (id, body) => {
     return new Promise((resolve, reject) => {
-      const queryString = `UPDATE product SET ? WHERE product.id_product=${id_product}`;
-      db.query(queryString, [body], (err, data) => {
+      const queryString = `UPDATE product SET ? WHERE product.id_product=${id}`;
+      db.query(queryString, body, (err, data) => {
         if (!err) {
+          // console.log(data);
           resolve(data);
         } else {
           reject(err);
@@ -72,7 +73,7 @@ const productsModel = {
   },
   // SEARCH
   searchProduct: (product) => {
-    const queryString = `SELECT product.id_product, product.name_product, category.name_category, product.price_product, product.img_product, product.created_at FROM product JOIN category ON product.id_category = category.id_category WHERE product.name_product LIKE "%${product}%"`;
+    const queryString = `SELECT product.id_product, product.name_product, category.name_category, product.price_product, product.img_product, product.created_at FROM product JOIN category ON product.id_category = category.id_category WHERE product.name_product LIKE "%${product.name_product}%"`;
     return new Promise((resolve, reject) => {
       db.query(queryString, (err, data) => {
         if (!err) {
@@ -80,21 +81,6 @@ const productsModel = {
             resolve(data);
           }
           reject("Data not found !");
-        } else {
-          reject(err);
-        }
-      });
-    });
-  },
-  // PAGINATION
-  getPaginatedProducts: (page, limit) => {
-    return new Promise((resolve, reject) => {
-      const offset = (page - 1) * limit;
-      const queryString =
-        "SELECT product.id_product, product.name_product, category.name_category, product.price_product, product.img_product, product.created_at FROM product JOIN category ON product.id_category = category.id_category LIMIT ? OFFSET ?";
-      db.query(queryString, [Number(limit), offset], (err, data) => {
-        if (!err) {
-          resolve(data);
         } else {
           reject(err);
         }

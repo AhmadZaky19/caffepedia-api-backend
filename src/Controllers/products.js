@@ -4,20 +4,21 @@ const moment = require("moment");
 
 const productsController = {
   // ALL
-  getAllProducts: (_, res) => {
+  getAllProducts: (req, res) => {
+    const { page, limit } = req.query;
     productsModel
-      .getAllProducts()
+      .getAllProducts(page, limit)
       .then((data) => {
-        formResponse.success(res, data, 200);
+        formResponse.pagination(req, res, data, 200);
       })
       .catch((err) => {
         formResponse.error(res, err, 500);
       });
   },
   // SORT PRODUCT BY
-  sortProductBy: (req, res) => {
+  sortProduct: (req, res) => {
     productsModel
-      .sortProductBy(req.query)
+      .sortProduct(req.query)
       .then((data) => {
         formResponse.success(res, data, 200);
       })
@@ -45,13 +46,14 @@ const productsController = {
   // UPDATE
   updateProduct: (req, res) => {
     productsModel
-      .updateProduct(req.body)
+      .updateProduct(req.params.id, req.body)
       .then((data) => {
         const responseData = {
           ...req.body,
+          msg: `Update Product with id_product: ${req.params.id} was Successful`,
           updated_at: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
         };
-        formResponse.success(res, responseData, data, 201);
+        formResponse.success(res, responseData, 201);
       })
       .catch((err) => {
         formResponse.error(res, err, 500);
@@ -65,7 +67,7 @@ const productsController = {
         const responseData = {
           id: data.insertId,
           ...req.body,
-          msg: `delete product with id: ${req.params.id} was successful`,
+          msg: `Delete Product with id: ${req.params.id} was Successful`,
         };
         formResponse.success(res, responseData, data, 200);
       })
@@ -79,29 +81,6 @@ const productsController = {
       .searchProduct(req.query)
       .then((data) => {
         formResponse.success(res, data);
-      })
-      .catch((err) => {
-        formResponse.error(res, err);
-      });
-  },
-  // PAGINATION
-  getPaginatedProducts: (req, res) => {
-    const { page, limit } = req.query;
-    productsModel
-      .getPaginatedProducts(page, limit)
-      .then((data) => {
-        formResponse.pagination(req, res, data, 200);
-      })
-      .catch((err) => {
-        formResponse.error(res, err, 500);
-      });
-  },
-
-  getProductByName: (req, res) => {
-    productsModel
-      .getProductByName(req.query.name_product)
-      .then((data) => {
-        formResponse.succes(res, data);
       })
       .catch((err) => {
         formResponse.error(res, err);

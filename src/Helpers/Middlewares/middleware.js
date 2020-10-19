@@ -11,9 +11,8 @@ const productMiddleware = (req, res, next) => {
   if (
     requestMethod === "GET" &&
     (requestPath === "/" ||
-      requestPath === "/sortproductby" ||
-      requestPath === "/search" ||
-      requestPath === "/pagination")
+      requestPath === "/sortproduct" ||
+      requestPath === "/search")
   ) {
     if (requestPath === "/search" && isQueryEmpty) {
       const errorMsg = "request cannot be blank";
@@ -21,7 +20,7 @@ const productMiddleware = (req, res, next) => {
     } else {
       next();
     }
-  } else if (requestMethod === "GET" && requestPath === "/sortproductby") {
+  } else if (requestMethod === "GET" && requestPath === "/sortproduct") {
     if (isQueryEmpty) {
       const errorMsg = "request cannot be blank";
       formResponse.error(res, errorMsg);
@@ -42,7 +41,7 @@ const productMiddleware = (req, res, next) => {
     } else {
       next();
     }
-  } else if (requestMethod === "PATCH" && requestPath === "/") {
+  } else if (requestMethod === "PATCH" && requestPath === "/:id") {
     if (isBodyEmpty) {
       const errMsg = "request cannot be blank!";
       formResponse.error(res, errMsg);

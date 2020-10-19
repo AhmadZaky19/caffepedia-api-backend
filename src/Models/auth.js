@@ -1,8 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 const db = require("../Configs/dbMySql");
-const authRouter = require("../Controllers/auth");
 
 const authModel = {
   postNewUser: (body) => {
@@ -15,16 +13,32 @@ const authModel = {
               const newBody = { ...body, password: hashedPassword };
               const qs = "SELECT username FROM users WHERE username = ?";
               const newQs = "INSERT INTO users SET ?";
-              db.query(qs, newBody.username, (secondErr, data) => {
+              db.query(qs, newBody.username, (err, data) => {
                 if (data.length) {
                   reject({ msg: "Username Already Exist" });
                 }
                 if (!data.length) {
-                  db.query(newQs, newBody, (newErr, result) => {
+                  db.query(newQs, newBody, (newErr, data) => {
                     if (!newErr) {
-                      resolve(result);
+                      const { insertId, image = null, id_level = 1 } = data;
+                      const { username, email } = body;
+                      const payload = {
+                        id: insertId,
+                        username,
+                        id_level,
+                      };
+                      const token = jwt.sign(payload, process.env.SECRET_KEY);
+                      resolve({
+                        msg: "Register Success",
+                        id: insertId,
+                        username,
+                        email,
+                        image,
+                        id_level,
+                        token,
+                      });
                     } else {
-                      reject(newErr);
+                      reject({ msg: "Register Failed" });
                     }
                   });
                 }
@@ -38,7 +52,7 @@ const authModel = {
   loginUser: (body) => {
     return new Promise((resolve, reject) => {
       const qs =
-        "SELECT users.username, users.password, levels.level FROM users JOIN levels ON users.id_level = levels.id WHERE username=?";
+        "SELECT id, username, password, id_level FROM users WHERE username=?";
       db.query(qs, body.username, (err, data) => {
         if (!err) {
           if (data.length) {
@@ -47,21 +61,21 @@ const authModel = {
                 reject({ msg: "Wrong Password" });
               } else if (result === true) {
                 const { username } = body;
-                const { level_id } = data[0];
+                const { id, email, image = null, id_level } = data[0];
                 const payload = {
                   username,
-                  level_id,
+                  id_level,
                 };
                 const token = jwt.sign(payload, process.env.SECRET_KEY);
                 const msg = "Login Success";
-                resolve({ msg, token });
+                resolve({ msg, id, username, email, image, id_level, token });
               } else {
-                reject(error);
+                reject({msg: 'Login Unsuccess'});
               }
             });
           } else {
             const msg = "Wrong Username";
-            reject({ msg, err });
+            reject({ msg });
           }
         } else {
           reject(err);

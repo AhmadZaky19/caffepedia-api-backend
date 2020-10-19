@@ -1,7 +1,7 @@
 const db = require("../Configs/dbMySql");
 
 const transactionModel = {
-  getAllTransaksi: () => {
+  getAllTransaction: () => {
     const queryString =
       "SELECT * FROM `transaction` ORDER BY transaction.id_trans DESC";
     return new Promise((resolve, reject) => {

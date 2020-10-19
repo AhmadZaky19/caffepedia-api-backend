@@ -12,8 +12,8 @@ const checkToken = {
     try {
       const token = bearerToken.split(" ")[1];
       const decoded = jwt.verify(token, process.env.SECRET_KEY);
-      console.log(decoded);
-      if (decoded.level === "Admin") {
+      // console.log(decoded);
+      if (decoded.id_level === 2) {
         req.decodedToken = decoded;
         console.log(decoded);
         next();
@@ -26,7 +26,7 @@ const checkToken = {
       formResponse.error(res, e);
     }
   },
-  checkTokenCashier: (req, res, next) => {
+  checkToken: (req, res, next) => {
     const bearerToken = req.header("x-access-token");
     if (!bearerToken) {
       res.json({
