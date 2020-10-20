@@ -47,10 +47,10 @@ const productsModel = {
   // UPDATE
   updateProduct: (id, body) => {
     return new Promise((resolve, reject) => {
-      const queryString = `UPDATE product SET ? WHERE product.id_product=${id}`;
+      const queryString = `UPDATE product SET ? WHERE product.id_product = ${id}`;
       db.query(queryString, body, (err, data) => {
         if (!err) {
-          // console.log(data);
+          console.log(data);
           resolve(data);
         } else {
           reject(err);

@@ -10,7 +10,7 @@ const userController = {
           ...req.body,
           msg: "Update Successfull",
         };
-        formResponse.success(res, responData, data, 201);
+        formResponse.success(res, responData, 201);
       })
       .catch((err) => {
         console.log(err);
