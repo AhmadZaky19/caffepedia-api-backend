@@ -1,4 +1,4 @@
-const db = require("../Configs/dbMysql");
+const db = require("../Configs/dbMySql");
 
 const userModel = {
   updateUser: (id, body) => {
