@@ -21,10 +21,10 @@ productsRouter.post(
 );
 productsRouter.patch(
   "/:id",
-  checkToken.checkTokenAdmin,
+  uploadImg.singleUpload,
   productMiddleware,
-  productsController.updateProduct,
-  uploadImg.singleUpload
+  checkToken.checkTokenAdmin,
+  productsController.updateProduct
 );
 productsRouter.get(
   "/sortproduct",
