@@ -1,10 +1,25 @@
 const authModel = require("../Models/auth");
-const formResponse = require("../Helpers/Forms/formResponse");
+const formResponse = require("../Helpers/formResponse");
 
 const authController = {
   register: (req, res) => {
     authModel
-      .postNewUser(req.body)
+      .register(req.body)
+      .then((data) => {
+        const respondata = {
+          ...req.body,
+          id: data.insertid,
+          password: "encypted",
+        };
+        formResponse.success(res, respondata);
+      })
+      .catch((err) => {
+        formResponse.error(res, err);
+      });
+  },
+  loginUser: (req, res) => {
+    authModel
+      .loginUser(req.body)
       .then((data) => {
         formResponse.success(res, data);
       })
@@ -12,9 +27,23 @@ const authController = {
         formResponse.error(res, err);
       });
   },
-  login: (req, res) => {
+  updateUser: (req, res) => {
     authModel
-      .loginUser(req.body)
+      .updateUser(req.body)
+      .then((data) => {
+        const responData = {
+          ...req.body,
+          msg: "Update Successfull",
+        };
+        formResponse.success(res, responData);
+      })
+      .catch((err) => {
+        formResponse.error(res, err);
+      });
+  },
+  getDatauser: (req, res) => {
+    authModel
+      .getDataUser(req.query)
       .then((data) => {
         formResponse.success(res, data);
       })

@@ -1,76 +1,68 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const db = require("../Configs/dbMySql");
+
+const db = require("../Configs/dbMysql");
 
 const authModel = {
-  postNewUser: (body) => {
+  register: (body) => {
     return new Promise((resolve, reject) => {
       bcrypt.genSalt(10, (err, salt) => {
-        if (!err) {
-          const { password } = body;
-          bcrypt.hash(password, salt, (error, hashedPassword) => {
-            if (!error) {
-              const newBody = { ...body, password: hashedPassword };
-              const qs = "SELECT username FROM users WHERE username = ?";
-              const newQs = "INSERT INTO users SET ?";
-              db.query(qs, newBody.username, (err, data) => {
-                if (data.length) {
-                  reject({ msg: "Username Already Exist" });
-                }
-                if (!data.length) {
-                  db.query(newQs, newBody, (newErr, data) => {
-                    if (!newErr) {
-                      const { insertId, image = null, id_level = 1 } = data;
-                      const { username, email } = body;
-                      const payload = {
-                        id: insertId,
-                        username,
-                        id_level,
-                      };
-                      const token = jwt.sign(payload, process.env.SECRET_KEY);
-                      resolve({
-                        msg: "Register Success",
-                        id: insertId,
-                        username,
-                        email,
-                        image,
-                        id_level,
-                        token,
-                      });
-                    } else {
-                      reject({ msg: "Register Failed" });
-                    }
-                  });
-                }
-              });
+        if (err) {
+          reject(err);
+        }
+        const { password, username } = body;
+        bcrypt.hash(password, salt, (err, encryptedPass) => {
+          if (err) {
+            reject(err);
+          }
+          const checkQuery = `SELECT username FROM users WHERE username ='${username}'`;
+          db.query(checkQuery, (err, data) => {
+            if (err) {
+              reject(err);
+            } else {
+              if (data.length) {
+                reject("Username Already Exist");
+              } else {
+                const newBody = { ...body, password: encryptedPass };
+                const queryInsert = "INSERT INTO users SET ?";
+                db.query(queryInsert, newBody, (err, data) => {
+                  if (!err) {
+                    resolve(data);
+                  } else {
+                    reject(err);
+                  }
+                });
+              }
             }
           });
-        }
+        });
       });
     });
   },
   loginUser: (body) => {
     return new Promise((resolve, reject) => {
-      const qs =
+      const { username, password } = body;
+      const queryLevel =
         "SELECT id, username, password, id_level FROM users WHERE username=?";
-      db.query(qs, body.username, (err, data) => {
+      db.query(queryLevel, username, (err, data) => {
         if (!err) {
           if (data.length) {
-            bcrypt.compare(body.password, data[0].password, (error, result) => {
+            bcrypt.compare(password, data[0].password, (error, result) => {
               if (!result) {
                 reject({ msg: "Wrong Password" });
               } else if (result === true) {
-                const { username } = body;
-                const { id, email, image = null, id_level } = data[0];
+                const { id, id_level } = data[0];
                 const payload = {
                   username,
                   id_level,
                 };
-                const token = jwt.sign(payload, process.env.SECRET_KEY);
+                const token = jwt.sign(payload, process.env.SECRET_KEY, {
+                  expiresIn: "6h",
+                });
                 const msg = "Login Success";
-                resolve({ msg, id, username, email, image, id_level, token });
+                resolve({ token, msg, username, id_level, id });
               } else {
-                reject({msg: 'Login Unsuccess'});
+                reject({ msg: "Login Unsuccess" });
               }
             });
           } else {
@@ -83,5 +75,30 @@ const authModel = {
       });
     });
   },
+  updateUser: (body) => {
+    return new Promise((resolve, reject) => {
+      const queryString = "UPDATE users SET? WHERE id=?";
+      db.query(queryString, [body, body.id], (err, data) => {
+        if (!err) {
+          resolve(data);
+        } else {
+          reject(err);
+        }
+      });
+    });
+  },
+  getDataUser: ({ id }) => {
+    return new Promise((resolve, reject) => {
+      const queryString = `SELECT * FROM users WHERE id=${id}`;
+      db.query(queryString, (err, data) => {
+        if (!err) {
+          resolve(data);
+        } else {
+          reject(err);
+        }
+      });
+    });
+  },
 };
+
 module.exports = authModel;
