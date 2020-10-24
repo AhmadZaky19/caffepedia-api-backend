@@ -40,7 +40,7 @@ const uploadFile = {
         });
       } else {
         try {
-          req.body.picture = `http://localhost:8000/images/${req.file.filename}`;
+          req.body.picture = `http://54.227.91.97:8000/images/${req.file.filename}`;
         } catch {
           console.log(err);
         } finally {
