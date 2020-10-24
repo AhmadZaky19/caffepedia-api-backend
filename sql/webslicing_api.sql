@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 23, 2020 at 01:10 PM
+-- Generation Time: Oct 24, 2020 at 08:16 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.2.32
 
@@ -60,6 +60,7 @@ CREATE TABLE `history` (
 
 INSERT INTO `history` (`invoice`, `cashier`, `date`, `orders`, `amount`) VALUES
 (23244, 'mamad', '2020-10-23 08:15:06', 'Espresso,Cappucino', 16500),
+(23670, 'udin', '2020-10-23 15:03:19', 'Salmon Truffle Teriyaki', 66000),
 (23733, 'mamad', '2020-10-23 08:16:22', 'Cappucino,Black Forest', 60500),
 (23913, 'mamad', '2020-10-23 09:31:34', 'Cheese Cake', 23100);
 
@@ -117,7 +118,8 @@ INSERT INTO `menu` (`id_menu`, `name`, `id_category`, `price`, `picture`, `creat
 (44, 'Bandrek', 1, '6000', 'http://localhost:8000/images/1603109889817-img_product.jpg', '2020-10-19 12:18:09.837654', '2020-10-19 12:18:09.837654'),
 (45, 'Oreo Milkshake', 1, '26000', 'http://localhost:8000/images/1603110176841-img_product.jpg', '2020-10-19 12:22:56.850646', '2020-10-19 12:22:56.850646'),
 (47, 'Cheese Cake', 2, '21000', 'http://localhost:8000/images/1603110243108-img_product.jpg', '2020-10-19 12:24:03.114579', '2020-10-19 12:24:03.114579'),
-(54, 'Sate Padang', 2, '20000', 'http://localhost:8000/images/1603447544779-picture.jpg', '2020-10-23 10:05:44.783609', '2020-10-23 10:05:44.783609');
+(57, 'Sate Padang', 2, '20000', 'http://localhost:8000/images/1603517578313-picture.jpg', '2020-10-23 12:00:39.888082', '2020-10-23 12:00:39.888082'),
+(58, 'Odading', 2, '10000', 'http://localhost:8000/images/1603519074299-picture.jpg', '2020-10-24 05:57:54.309356', '2020-10-24 05:57:54.309356');
 
 -- --------------------------------------------------------
 
@@ -147,7 +149,8 @@ INSERT INTO `users` (`id`, `username`, `password`, `id_level`) VALUES
 (20, 'fajar', '$2b$10$sx3hTdZD9/uuum/zS7DBhu6NJAoR2wYSJVNOiKRCBqXOBRttx0KR6', 1),
 (21, 'juned', '$2b$10$i4t/OjgicRWzQF7WzUkq8.N6dF.dQvbk.Spyn7shmaUuJEpikpLz6', 2),
 (22, 'mamad', '$2b$10$76ipvHV0kyijUmCZVha5PO39E5PH6xyaXwKqot54Z./OXlhW5LKxK', 1),
-(23, 'topik', '$2b$10$2FdGv4o210ObKIlgUfHh7OA4Ko9DrviyEefuucVLRq4OZtiWSHk0m', 1);
+(23, 'topik', '$2b$10$2FdGv4o210ObKIlgUfHh7OA4Ko9DrviyEefuucVLRq4OZtiWSHk0m', 1),
+(24, 'udin', '$2b$10$o6LTSi6Kg59uA.yF9JKJC.CWfq1D6TnAucWoEuDNLjen62sgGwNde', 1);
 
 --
 -- Indexes for dumped tables
@@ -212,13 +215,13 @@ ALTER TABLE `levels`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id_menu` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id_menu` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- Constraints for dumped tables
