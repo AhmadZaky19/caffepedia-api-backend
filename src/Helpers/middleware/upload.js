@@ -3,7 +3,7 @@ const path = require("path");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./public/Images");
+    cb(null, "./public/images");
   },
   filename: (req, file, cb) => {
     const nameFormat = `${Date.now()}-${file.fieldname}${path.extname(
@@ -40,7 +40,7 @@ const uploadFile = {
         });
       } else {
         try {
-          req.body.picture = `http://54.227.91.97:8000/images/${req.file.filename}`;
+          req.body.picture = `http://52.205.254.99:8000/images/${req.file.filename}`;
         } catch {
           console.log(err);
         } finally {
