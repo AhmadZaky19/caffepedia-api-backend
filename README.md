@@ -39,4 +39,4 @@ After that you can install package that you need in your project with command:
 ## REST API
 
 The REST API to the caffepedia app is described in this Postman Documentation: <https://documenter.getpostman.com/view/12176793/TVYC9KsC>.
-<i>Note: change http://54.227.91.97:8000 with http://localhost:your_port if you yet deploy the app, or change it with your ip deploy</i>
+<i>Note: change http://34.205.76.141:8000 with http://localhost:your_port if you yet deploy the app, or change it with your ip deploy</i>
