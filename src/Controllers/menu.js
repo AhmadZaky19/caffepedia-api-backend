@@ -19,8 +19,8 @@ const menuController = {
       .then((data) => {
         const respondata = {
           ...req.body,
+          msg: "Insert Menu Success",
           data: data,
-          // msg: "Insert Menu Success",
         };
         formResponse.success(res, respondata);
       })
@@ -35,7 +35,7 @@ const menuController = {
         const msg = {
           msg: `Delete Product with id ${req.query.id} Successful`,
         };
-        formResponse.success(res, data, msg);
+        formResponse.success(res, msg, data);
       })
       .catch((err) => {
         formResponse.error(res, err);

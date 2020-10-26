@@ -13,7 +13,7 @@ menuRouter.get("/", menuController.getAllMenus);
 menuRouter.post(
   "/",
   upload.singleUpload,
-  //   checkToken.checkToken,
+  checkToken.checkTokenAdmin,
   menuController.insertMenus
 );
 
@@ -21,7 +21,7 @@ menuRouter.post(
 menuRouter.delete(
   "/",
   //   upload.singleUpload,
-  //   checkToken.checkToken,
+  checkToken.checkTokenAdmin,
   menuController.deleteByid
 );
 
@@ -29,7 +29,7 @@ menuRouter.delete(
 menuRouter.patch(
   "/",
   upload.singleUpload,
-//   checkToken.checkToken,
+  checkToken.checkTokenAdmin,
   menuController.updateById
 );
 
