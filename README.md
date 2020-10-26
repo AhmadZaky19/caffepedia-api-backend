@@ -1,6 +1,6 @@
 # REST API Caffepedia App
 
-This is a repository that providing a REST API to a Caffepedia App.
+This is a repository that providing a REST API to a Caffepedia App. For the Caffepedia App repository, you can check it in [here](https://github.com/AhmadZaky19/Caffepedia-App)
 
 Before using this API we need some application installed in our PC or Laptop:
 
@@ -39,4 +39,4 @@ After that you can install package that you need in your project with command:
 ## REST API
 
 The REST API to the caffepedia app is described in this Postman Documentation: <https://documenter.getpostman.com/view/12176793/TVYC9KsC>.
-<i>Note: change http://34.205.76.141:8000 with http://localhost:your_port if you yet deploy the app, or change it with your ip deploy</i>
+<i>Note: change the IP and Port with http://localhost:your_port if you yet deploy the app, or change it with your ip deploy</i>
