@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 25, 2020 at 09:52 AM
+-- Generation Time: Nov 08, 2020 at 04:45 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.2.32
 
@@ -29,16 +29,17 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `category` (
   `id_category` int(10) NOT NULL,
-  `name_category` varchar(50) NOT NULL
+  `name_category` varchar(50) NOT NULL,
+  `image_category` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `category`
 --
 
-INSERT INTO `category` (`id_category`, `name_category`) VALUES
-(1, 'Drink'),
-(2, 'Food');
+INSERT INTO `category` (`id_category`, `name_category`, `image_category`) VALUES
+(1, 'Drink', 'https://glicowings.co.id/uploads/offline_activity/5-resep-minuman-dengan-es-krim-ala-kafe-hits-yang-nikmat-dan-segar/ecad8583c5c4992da3b0c7ef9921860c.jpg'),
+(2, 'Food', 'https://www.anekawisata.com/wp-content/uploads/2015/12/The-Valley-Bistro-Cafe.jpg');
 
 -- --------------------------------------------------------
 
@@ -118,7 +119,7 @@ INSERT INTO `menu` (`id_menu`, `name`, `id_category`, `price`, `picture`, `creat
 (44, 'Bandrek', 1, '6000', 'http://34.205.76.141:8000/images/1603109889817-img_product.jpg', '2020-10-19 12:18:09.837654', '2020-10-19 12:18:09.837654'),
 (45, 'Oreo Milkshake', 1, '26000', 'http://34.205.76.141:8000/images/1603110176841-img_product.jpg', '2020-10-19 12:22:56.850646', '2020-10-19 12:22:56.850646'),
 (47, 'Cheese Cake', 2, '21000', 'http://34.205.76.141:8000/images/1603110243108-img_product.jpg', '2020-10-19 12:24:03.114579', '2020-10-19 12:24:03.114579'),
-(57, 'Sate Padang', 2, '20000', 'http://34.205.76.141:8000/images/1603517578313-picture.jpg', '2020-10-23 12:00:39.888082', '2020-10-23 12:00:39.888082'),
+(57, 'Sate Padang', 2, '10001', 'http://34.205.76.141:8000/images/1604850018542-picture.jpg', '2020-10-23 12:00:39.888082', '2020-10-23 12:00:39.888082'),
 (58, 'Odading', 2, '10000', 'http://34.205.76.141:8000/images/1603519074299-picture.jpg', '2020-10-24 05:57:54.309356', '2020-10-24 05:57:54.309356'),
 (59, 'Spaghetti', 2, '29000', 'http://34.205.76.141:8000/images/1603539907620-picture.jpg', '2020-10-24 11:45:07.631567', '2020-10-24 11:45:07.631567');
 
@@ -151,7 +152,30 @@ INSERT INTO `users` (`id`, `username`, `password`, `id_level`) VALUES
 (21, 'juned', '$2b$10$i4t/OjgicRWzQF7WzUkq8.N6dF.dQvbk.Spyn7shmaUuJEpikpLz6', 2),
 (22, 'mamad', '$2b$10$76ipvHV0kyijUmCZVha5PO39E5PH6xyaXwKqot54Z./OXlhW5LKxK', 1),
 (23, 'topik', '$2b$10$2FdGv4o210ObKIlgUfHh7OA4Ko9DrviyEefuucVLRq4OZtiWSHk0m', 1),
-(24, 'udin', '$2b$10$o6LTSi6Kg59uA.yF9JKJC.CWfq1D6TnAucWoEuDNLjen62sgGwNde', 1);
+(24, 'udin', '$2b$10$o6LTSi6Kg59uA.yF9JKJC.CWfq1D6TnAucWoEuDNLjen62sgGwNde', 1),
+(25, 'Neko', '$2b$10$rHqWp/tx1kxq66SoZFl9SuytSklV0T5srGubeXNOG.dl6ksihDvV2', 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_order`
+--
+
+CREATE TABLE `user_order` (
+  `date` varchar(40) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `orders` varchar(255) NOT NULL,
+  `amount` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user_order`
+--
+
+INSERT INTO `user_order` (`date`, `name`, `orders`, `amount`) VALUES
+('8-November-2020', 'udin', 'Espresso', 35000),
+('8-November-2020', 'udin', 'Cofee Latte,Cappucino', 45000),
+('8-November-2020', 'mamad', 'Bandrek', 21000);
 
 --
 -- Indexes for dumped tables
@@ -216,13 +240,13 @@ ALTER TABLE `levels`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id_menu` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id_menu` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- Constraints for dumped tables
